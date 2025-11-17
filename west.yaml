@@ -1,0 +1,17 @@
+manifest:
+  version: 0.8
+
+  self:
+    path: benji
+
+  projects:
+    - name: zephyr
+      revision: v4.2.0
+      url: https://github.com/zephyrproject-rtos/zephyr
+      import:
+        path-prefix: deps
+        file: west.yml
+    - name: doxygen-awesome
+      url: https://github.com/jothepro/doxygen-awesome-css
+      revision: v2.3.3
+      path: deps/utilities/doxygen-awesome-css

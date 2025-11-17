@@ -1,0 +1,9 @@
+[manifest]
+path = .
+file = west.yaml
+
+[zephyr]
+base = /home/smitj/Git/zephyrproject/zephyr
+
+[build]
+board = adafruit_feather_stm32f405

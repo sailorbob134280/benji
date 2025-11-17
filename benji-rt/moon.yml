@@ -1,0 +1,29 @@
+layer: "application"
+language: "cpp"
+
+tasks:
+  build:
+    command: "west build ."
+    description: "Build the Benji RT application using west"
+    inputs:
+      - "prj.conf"
+      - "CMakeLists.txt"
+      - "boards/**"
+      - "inc/**"
+      - "src/**"
+    outputs:
+      - "build/**"
+
+  flash:
+    command: "west flash --runner jlink"
+    description: "Flash the Benji RT application to the target device"
+    deps:
+      - build
+    options:
+      cache: false
+    inputs:
+      - "build/**"
+
+project:
+  name: "Benji RT"
+  description: "Realtime MCU deployment for the Benji robot"

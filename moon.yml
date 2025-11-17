@@ -1,0 +1,4 @@
+tasks:
+  setup:
+    command: "west update"
+    description: "Update all west modules for the Benji RT application"

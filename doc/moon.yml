@@ -1,0 +1,19 @@
+layer: "application"
+
+tasks:
+  clean:
+    command: "make clean"
+    description: "Clean the Benji Docs build directory"
+
+  build:
+    command: "make html"
+    description: "Build the Benji Docs using Sphinx"
+    inputs:
+      - "**/*.rst"
+      - "**/*.md"
+    outputs:
+      - "_build/**"
+
+project:
+  name: "Benji Docs"
+  description: "Documentation for the Benji robot"

@@ -1,0 +1,8 @@
+{% extends "!footer.html" %}
+{% block contentinfo %}
+<p>
+  {%- if show_copyright %}
+  &#169; Copyright {{ copyright }}.
+  {%- endif %}
+</p>
+{% endblock %}

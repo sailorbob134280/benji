@@ -1,0 +1,4 @@
+sources/
+build/
+secrets.yaml
+.kas_shell_history

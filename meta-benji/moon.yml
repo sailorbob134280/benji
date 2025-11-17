@@ -1,0 +1,56 @@
+layer: "application"
+language: "bitbake"
+
+tasks:
+  setup:
+    command: "kas-container checkout benji-devel.yaml"
+    description: "Set up the build environment for the Benji Compute platform image using kas-container"
+    inputs:
+      - "benji-devel.yaml"
+      - "secrets.yaml"
+    outputs:
+      - "sources/**"
+
+  build:
+    command: "kas-container build benji-devel.yaml"
+    description: "Build the Benji Compute platform image using BitBake, with configurations from benji-devel.yaml"
+    deps:
+      - "setup"
+    options:
+      # We don't cache because Yocto handles it, and the output is massive
+      cache: false
+    inputs:
+      - "benji-devel.yaml"
+      - "secrets.yaml"
+    outputs:
+      - "build/**"
+
+  clean:
+    command: "kas-container clean benji-devel.yaml"
+    description: "Clean the build environment for the Benji Compute platform image"
+    options:
+      cache: false
+    inputs:
+      - "benji-devel.yaml"
+      - "secrets.yaml"
+
+  spotless:
+    command: "kas-container purge benji-devel.yaml && rm -rf build && rm -rf sources/"
+    description: "Obliterate the sources, work directories, and build artifacts for the Benji Compute platform image"
+    options:
+      cache: false
+    inputs:
+      - "benji-devel.yaml"
+      - "secrets.yaml"
+
+  flash:
+    command: "echo 'Flashing process for Benji Compute platform image to be implemented'"
+    description: "Flash the Benji Compute platform image to the target device (to be implemented)"
+    deps:
+      - "build"
+    options:
+      cache: false
+
+project:
+  name: "Benji Compute"
+  description: "Compute platform image build for the Benji robot"
