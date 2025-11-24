@@ -2,11 +2,11 @@ layer: "application"
 
 tasks:
   clean:
-    command: "make clean"
+    command: "uv run sphinx-build -M clean . _build"
     description: "Clean the Benji Docs build directory"
 
   build:
-    command: "make html"
+    command: "uv run sphinx-build -M html . _build"
     description: "Build the Benji Docs using Sphinx"
     inputs:
       - "**/*.rst"
