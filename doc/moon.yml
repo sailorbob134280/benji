@@ -5,14 +5,33 @@ tasks:
     command: "uv run sphinx-build -M clean . _build"
     description: "Clean the Benji Docs build directory"
 
-  build:
+  build-html:
     command: "uv run sphinx-build -M html . _build"
     description: "Build the Benji Docs using Sphinx"
     inputs:
       - "**/*.rst"
       - "**/*.md"
+      - "gnc/notebooks/*.ipynb"
+      - "conf.py"
     outputs:
-      - "_build/**"
+      - "_build/html/**"
+
+  build-pdf:
+    command: "uv run sphinx-build -M latex . _build && docker run --rm -v $PWD/_build/latex:/docs sphinxdoc/sphinx-latexpdf make"
+    description: "Build the Benji Docs as PDF using Docker with LaTeX"
+    inputs:
+      - "**/*.rst"
+      - "**/*.md"
+      - "gnc/notebooks/*.ipynb"
+      - "conf.py"
+    outputs:
+      - "_build/latex/**"
+
+  build:
+    description: "Build all Benji Docs formats"
+    deps:
+      - build-html
+      - build-pdf
 
 project:
   name: "Benji Docs"

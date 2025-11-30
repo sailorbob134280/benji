@@ -23,10 +23,19 @@ extensions = [
     "sphinxcontrib.jquery",
     "sphinxcontrib.programoutput",
     "myst_parser",
+    "nbsphinx",
 ]
 
+myst_enable_extensions = [
+    "dollarmath",
+]
+
+# -- Options for nbsphinx ---------------------------------------------------
+# Execute notebooks during build to ensure outputs are current.
+# nbsphinx_execute = 'auto'
+
 templates_path = ['_templates']
-exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
+exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store', 'gnc/notebooks/appendix']
 
 source_suffix = {
     '.rst': 'restructuredtext',
@@ -78,6 +87,15 @@ html_domain_indices = False
 html_show_sourcelink = False
 html_show_sphinx = False
 
+# -- Options for LaTeX/PDF output ----------------------------------------
+# Use xelatex for Unicode support (Greek letters in notebooks)
+latex_engine = 'xelatex'
+
+latex_documents = [
+    ('index', 'benji.tex', 'Benji Documentation',
+     'Cave in the Mountains', 'manual'),
+]
+
 # -- Options for sphinx-sitemap ----------------------------------------
 
 sitemap_url_scheme = "{link}"
@@ -85,5 +103,3 @@ sitemap_url_scheme = "{link}"
 def setup(app):
     app.add_css_file("css/custom.css")
     app.add_js_file("js/custom.js", type="module")
-    app.add_js_file("js/dark-mode-toggle-stylesheets-loader.min.js", type="module")
-    app.add_js_file("js/dark-mode-toggle.min.mjs", type="module")
