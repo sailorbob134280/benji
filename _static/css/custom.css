@@ -822,10 +822,9 @@ kbd,
 }
 
 .wy-side-nav-search > a img.logo {
-  /* Fixed size to prevent reflows and support hiDPI displays */
-  /* A 5 pixel margin is added on each side. The logo itself displays at 200×100 at 100% scaling. */
-  width: 210px;
-  height: 105px;
+  /* Fixed width, auto height to maintain aspect ratio */
+  width: 150px;
+  height: auto;
 }
 
 .wy-side-nav-search {
