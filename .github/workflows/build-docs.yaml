@@ -30,9 +30,6 @@ jobs:
         run: |
           docker run --rm -v ${{ github.workspace }}/doc:/workspace benji-doc:latest -M html . _build
 
-      - name: Add .nojekyll file
-        run: touch doc/_build/html/.nojekyll
-
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         with:

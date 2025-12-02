@@ -74,14 +74,15 @@ nitpick_ignore = [
 
 html_theme = "sphinx_rtd_theme"
 html_theme_options = {
-    # "logo_only": True,
+    "logo_only": True,
     "prev_next_buttons_location": None,
     "navigation_depth": 5,
 }
 html_title = "Benji Documentation"
-# html_logo = str("_static" / "images" / "logo.svg")
-# html_favicon = str("_static" / "images" / "favicon.png")
+html_logo = "_static/images/logo.png"
+html_favicon = "_static/images/logo.png"
 html_static_path = ['_static']
+html_extra_path = ['_static/.nojekyll']
 html_last_updated_fmt = "%b %d, %Y"
 html_domain_indices = False
 html_show_sourcelink = False
