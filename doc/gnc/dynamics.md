@@ -115,6 +115,6 @@ $$e_\theta = \text{atan2}(\sin(\theta - \theta_{ref}), \cos(\theta - \theta_{ref
 
 or equivalently:
 
-$$e_\theta = ((\theta - \theta_{ref}) + \pi) \mod 2\pi - \pi$$
+$$e_\theta = \bigl((\theta - \theta_{ref}) + \pi \bigr) \mod 2\pi - \pi$$
 
 This is critical for correct controller behavior near $\theta = \pm\pi$.
