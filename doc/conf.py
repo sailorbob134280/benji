@@ -92,6 +92,8 @@ html_show_sphinx = False
 # Use xelatex for Unicode support (Greek letters in notebooks)
 latex_engine = 'xelatex'
 
+latex_logo = '_static/images/logo.png'
+
 latex_documents = [
     ('index', 'benji.tex', 'Benji Documentation',
      'Cave in the Mountains', 'manual'),

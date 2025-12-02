@@ -26,9 +26,19 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: Build docs 🔧
+      - name: Build HTML docs 🔧
         run: |
           docker run --rm -v ${{ github.workspace }}/doc:/workspace benji-doc:latest -M html . _build
+
+      - name: Build PDF docs 📄
+        run: |
+          docker run --rm -v ${{ github.workspace }}/doc:/workspace benji-doc:latest -M latexpdf . _build
+
+      - name: Upload PDF artifact 📦
+        uses: actions/upload-artifact@v4
+        with:
+          name: benji-documentation-pdf
+          path: doc/_build/latex/benji.pdf
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
