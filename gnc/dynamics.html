@@ -242,7 +242,7 @@ B = \begin{bmatrix}
 \[e_\theta = \text{atan2}(\sin(\theta - \theta_{ref}), \cos(\theta - \theta_{ref}))\]</div>
 <p>or equivalently:</p>
 <div class="math notranslate nohighlight">
-\[e_\theta = ((\theta - \theta_{ref}) + \pi) \mod 2\pi - \pi\]</div>
+\[e_\theta = \bigl((\theta - \theta_{ref}) + \pi \bigr) \mod 2\pi - \pi\]</div>
 <p>This is critical for correct controller behavior near <span class="math notranslate nohighlight">\(\theta = \pm\pi\)</span>.</p>
 </section>
 </section>
