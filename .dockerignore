@@ -1,0 +1,62 @@
+# =============================================================================
+# Docker build context exclusions for Benji monorepo
+# =============================================================================
+
+# Git
+.git
+.gitignore
+
+# Moon cache (non-portable per Moon docs)
+.moon/cache
+
+# Build outputs
+build/
+**/build/
+**/_build/
+
+# Python artifacts
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+
+# Zephyr dependencies (baked into benji-rt image separately)
+deps/
+
+# Meta-benji (uses kas-container, not our Dockerfiles)
+meta-benji/
+
+# West configuration (recreated in containers)
+.west/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Large binary files
+*.bin
+*.elf
+*.hex
+*.map
+
+# Documentation build outputs
+doc/_build/
+
+# Test outputs
+*.log
+coverage/
+htmlcov/
+.pytest_cache/
+
+# Temporary files
+tmp/
+temp/
+*.tmp

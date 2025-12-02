@@ -6,8 +6,10 @@ tasks:
     description: "Clean the Benji Docs build directory"
 
   build-html:
-    command: "uv run sphinx-build -M html . _build"
-    description: "Build the Benji Docs using Sphinx"
+    command: "docker run --rm -v $PWD:/workspace -w /workspace benji-doc:latest -M html . _build"
+    description: "Build the Benji Docs HTML using Docker"
+    deps:
+      - "benji:docker-build-doc"
     inputs:
       - "**/*.rst"
       - "**/*.md"
@@ -17,8 +19,10 @@ tasks:
       - "_build/html/**"
 
   build-pdf:
-    command: "uv run sphinx-build -M latex . _build && docker run --rm -v $PWD/_build/latex:/docs sphinxdoc/sphinx-latexpdf make"
-    description: "Build the Benji Docs as PDF using Docker with LaTeX"
+    command: "docker run --rm -v $PWD:/workspace -w /workspace benji-doc:latest -M latexpdf . _build"
+    description: "Build the Benji Docs as PDF using Docker"
+    deps:
+      - "benji:docker-build-doc"
     inputs:
       - "**/*.rst"
       - "**/*.md"

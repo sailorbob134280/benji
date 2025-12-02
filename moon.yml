@@ -2,3 +2,21 @@ tasks:
   setup:
     command: "uv run west update"
     description: "Update all west modules for the Benji RT application"
+
+  docker-build-doc:
+    command: "docker build -t benji-doc:latest -f docker/doc/Dockerfile ."
+    description: "Build the Benji documentation Docker image (HTML + PDF)"
+    options:
+      cache: false
+
+  docker-build-rt:
+    command: "docker build -t benji-rt:latest -f docker/benji-rt/Dockerfile ."
+    description: "Build the Benji RT development Docker image (Zephyr SDK)"
+    options:
+      cache: false
+
+  docker-build:
+    description: "Build all Benji Docker images"
+    deps:
+      - docker-build-doc
+      - docker-build-rt

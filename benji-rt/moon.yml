@@ -3,8 +3,28 @@ language: "cpp"
 
 tasks:
   build:
+    command: "docker run --rm -v $workspaceRoot:/opt/zephyr-workspace/benji -w /opt/zephyr-workspace benji-rt:latest west build -b adafruit_feather_stm32f405 -d benji/benji-rt/build benji/benji-rt"
+    description: "Build the Benji RT application using Docker (default)"
+    deps:
+      - "benji:docker-build-rt"
+    inputs:
+      - "prj.conf"
+      - "CMakeLists.txt"
+      - "boards/**"
+      - "inc/**"
+      - "src/**"
+    outputs:
+      - "build/**"
+
+  clean:
+    command: "docker run --rm -v $workspaceRoot:/opt/zephyr-workspace/benji -w /opt/zephyr-workspace benji-rt:latest rm -rf benji/benji-rt/build"
+    description: "Clean the Benji RT build directory"
+    options:
+      cache: false
+
+  build-native:
     command: "uv run west build ."
-    description: "Build the Benji RT application using west"
+    description: "Build the Benji RT application natively (requires local Zephyr SDK)"
     inputs:
       - "prj.conf"
       - "CMakeLists.txt"
@@ -18,7 +38,7 @@ tasks:
     command: "uv run west flash --runner jlink"
     description: "Flash the Benji RT application to the target device"
     deps:
-      - build
+      - build-native
     options:
       cache: false
     inputs:
