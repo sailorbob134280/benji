@@ -78,3 +78,52 @@
   </div>
 </Slide>
 
+<Slide title="RT-Compute Protocol">
+  <div class="grid grid-cols-2 gap-8">
+    <div class="space-y-6">
+      <div>
+        <h3 class="text-2xl font-semibold mb-3 text-purple-400">Interaction Model</h3>
+        <ul class="list-disc list-inside space-y-2 text-lg">
+          <li><span class="text-yellow-300">Controller-Peripheral</span> pattern</li>
+          <li>Compute is controller, RT core is peripheral</li>
+          <li>RT core is expected to handle one interaction at a time</li>
+          <li>Compute will periodically fetch telemetry of interest</li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-2xl font-semibold mb-3 text-blue-400">Interaction Types</h3>
+        <ul class="list-disc list-inside space-y-2 text-lg">
+          <li><span class="text-green-400 font-semibold">Command</span> - Action request, returns status</li>
+          <li><span class="text-green-400 font-semibold">Request/Response</span> - Data query, returns payload or error</li>
+        </ul>
+        <p class="text-base text-gray-400 mt-2 ml-6">No streaming - completion signaled by response</p>
+      </div>
+    </div>
+    <div class="space-y-6">
+      <div>
+        <h3 class="text-2xl font-semibold mb-3 text-orange-400">Frame Format</h3>
+        <div class="bg-gray-800/50 rounded-lg p-4 font-mono text-base">
+          <div class="grid grid-cols-4 gap-2 text-center mb-2">
+            <div class="bg-purple-600/40 rounded p-2">Sync</div>
+            <div class="bg-blue-600/40 rounded p-2">Length</div>
+            <div class="bg-green-600/40 rounded p-2">Data</div>
+            <div class="bg-yellow-600/40 rounded p-2">CRC16</div>
+          </div>
+          <div class="grid grid-cols-4 gap-2 text-center text-sm text-gray-400">
+            <div>4 bytes</div>
+            <div>4 bytes</div>
+            <div>variable</div>
+            <div>2 bytes</div>
+          </div>
+        </div>
+        <ul class="list-disc list-inside space-y-1 text-base mt-3">
+          <li><span class="text-purple-400">Sync:</span> <span class="font-mono">0x352ef853</span> (CCSDS embedded sync marker)</li>
+          <li><span class="text-blue-400">Length:</span> Little-endian, data field only</li>
+          <li><span class="text-green-400">Data:</span> Protobuf-encoded message</li>
+          <li><span class="text-yellow-400">CRC16:</span> Checksum of data field</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</Slide>
+
