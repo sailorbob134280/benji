@@ -6,7 +6,7 @@ tasks:
     description: "Clean the Benji Docs build directory"
 
   build-html:
-    command: "docker run --rm -v $PWD:/workspace -w /workspace benji-doc:latest -M html . _build"
+    command: "docker run --rm -v $workspaceRoot:/workspace -w /workspace/doc benji-doc:latest -M html . _build"
     description: "Build the Benji Docs HTML using Docker"
     deps:
       - "benji:docker-build-doc"
@@ -19,7 +19,7 @@ tasks:
       - "_build/html/**"
 
   build-pdf:
-    command: "docker run --rm -v $PWD:/workspace -w /workspace benji-doc:latest -M latexpdf . _build"
+    command: "docker run --rm -v $workspaceRoot:/workspace -w /workspace/doc benji-doc:latest -M latexpdf . _build"
     description: "Build the Benji Docs as PDF using Docker"
     deps:
       - "benji:docker-build-doc"

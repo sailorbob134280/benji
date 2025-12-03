@@ -28,7 +28,16 @@ extensions = [
 
 myst_enable_extensions = [
     "dollarmath",
+    "substitution",
 ]
+
+# Allow MyST to include files from parent directory (for README.md)
+myst_heading_anchors = 3
+
+# Substitutions for conditional content
+myst_substitutions = {
+    "badge": "[![Documentation](https://img.shields.io/badge/docs-GitHub%20Pages-blue)](https://sailorbob134280.github.io/benji/)",
+}
 
 # -- Options for nbsphinx ---------------------------------------------------
 # Execute notebooks during build to ensure outputs are current.
@@ -98,6 +107,9 @@ latex_documents = [
     ('index', 'benji.tex', 'Benji Documentation',
      'Cave in the Mountains', 'manual'),
 ]
+
+# Suppress missing image warnings/errors for remote images (e.g., shields.io badges)
+suppress_warnings = ['image.not_readable']
 
 # -- Options for sphinx-sitemap ----------------------------------------
 

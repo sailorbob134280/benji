@@ -27,7 +27,7 @@ There are two primary interaction types:
 
 The RT core can only service one interacttion at a time. Interaction completion is indicated by the response message from the RT core (status for commands, responses or error message for requests). For simplicity, streaming interactions (client, server, or bidirectional) are not currently supported.
 
-```{success}
+```{seealso}
 Looking towards the future, eventually it will be worth either leveraging an existing embedded RPC framework or building a `protoc` plugin that will generate client and server stubs.
 ```
 
