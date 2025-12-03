@@ -10,3 +10,4 @@ projects:
   - "benji-rt"
   - "doc"
   - "meta-benji"
+  - "proto"
