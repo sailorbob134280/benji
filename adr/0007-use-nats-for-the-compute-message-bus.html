@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>3. Use Zephyr for the RT control core &mdash; Benji Documentation</title>
+  <title>7. Use NATS for the compute message bus &mdash; Benji Documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
@@ -24,8 +24,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="4. Use embedded linux via Yocto for the compute platform" href="0004-use-embedded-linux-via-yocto-for-the-compute-platform.html" />
-    <link rel="prev" title="2. Split compute and real time control to separate processors" href="0002-split-compute-and-real-time-control-to-separate-processors.html" />
+    <link rel="next" title="Guidance, Navigation, and Control" href="../gnc/index.html" />
+    <link rel="prev" title="6. Leverage microservices for the compute platform" href="0006-leverage-microservices-for-the-compute-platform.html" />
   <meta name="color-scheme" content="dark light">
   
   <noscript id="dark-mode-toggle-stylesheets">
@@ -68,17 +68,17 @@
 <li class="toctree-l2 current"><a class="reference internal" href="../architecture/index.html#architectural-decision-records">Architectural Decision Records</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="0001-record-architecture-decisions.html">1. Record architecture decisions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="0002-split-compute-and-real-time-control-to-separate-processors.html">2. Split compute and real time control to separate processors</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">3. Use Zephyr for the RT control core</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="0003-use-zephyr-for-the-rt-control-core.html">3. Use Zephyr for the RT control core</a></li>
+<li class="toctree-l3"><a class="reference internal" href="0004-use-embedded-linux-via-yocto-for-the-compute-platform.html">4. Use embedded linux via Yocto for the compute platform</a></li>
+<li class="toctree-l3"><a class="reference internal" href="0005-version-and-build-all-apps-as-a-single-entity.html">5. Version and build all apps as a single entity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="0006-leverage-microservices-for-the-compute-platform.html">6. Leverage microservices for the compute platform</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">7. Use NATS for the compute message bus</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#status">Status</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#context">Context</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#decision">Decision</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#consequences">Consequences</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="0004-use-embedded-linux-via-yocto-for-the-compute-platform.html">4. Use embedded linux via Yocto for the compute platform</a></li>
-<li class="toctree-l3"><a class="reference internal" href="0005-version-and-build-all-apps-as-a-single-entity.html">5. Version and build all apps as a single entity</a></li>
-<li class="toctree-l3"><a class="reference internal" href="0006-leverage-microservices-for-the-compute-platform.html">6. Leverage microservices for the compute platform</a></li>
-<li class="toctree-l3"><a class="reference internal" href="0007-use-nats-for-the-compute-message-bus.html">7. Use NATS for the compute message bus</a></li>
 </ul>
 </li>
 </ul>
@@ -114,7 +114,7 @@
   
      <li><a href="../architecture/index.html">Architecture</a> &raquo;</li>
   
-  <li>3. Use Zephyr for the RT control core</li>
+  <li>7. Use NATS for the compute message bus</li>
 
 
   <li class="wy-breadcrumbs-aside">
@@ -128,30 +128,24 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section class="tex2jax_ignore mathjax_ignore" id="use-zephyr-for-the-rt-control-core">
-<h1>3. Use Zephyr for the RT control core<a class="headerlink" href="#use-zephyr-for-the-rt-control-core" title="Link to this heading"></a></h1>
-<p>Date: 2025-11-23</p>
+  <section class="tex2jax_ignore mathjax_ignore" id="use-nats-for-the-compute-message-bus">
+<h1>7. Use NATS for the compute message bus<a class="headerlink" href="#use-nats-for-the-compute-message-bus" title="Link to this heading"></a></h1>
+<p>Date: 2025-12-02</p>
 <section id="status">
 <h2>Status<a class="headerlink" href="#status" title="Link to this heading"></a></h2>
 <p>Accepted</p>
 </section>
 <section id="context">
 <h2>Context<a class="headerlink" href="#context" title="Link to this heading"></a></h2>
-<p>Following <a class="reference internal" href="0002-split-compute-and-real-time-control-to-separate-processors.html"><span class="std std-doc">ADR-0002</span></a>, we have decided to split Benji’s compute and real-time control tasks to separate processors. The real-time control core will be implemented on a microcontroller (MCU) that interfaces directly with sensors and actuators. There are enough tasks that the MCU will need to handle that using a real-time operating system (RTOS) is advisable, especially considering the benefits and additional features that an RTOS can provide.</p>
-<p>A few factors are driving the choice of an RTOS:</p>
-<ul class="simple">
-<li><p><strong>Device Support</strong> - As a solo developer, it’s not realistic that I can write and maintain all the necessary device drivers while also completing the project in a reasonable time frame, and it’s silly to attempt to do so. A well-supported ecosystem with existing drivers for the required peripherals is essential.</p></li>
-<li><p><strong>Update and Maintenance</strong> - With the planned hardware design, the chip will not be as easy to get to for software updates. An RTOS that supports DFU (Device Firmware Update) over the air or through a simple interface is highly desirable, particularly one with good community support.</p></li>
-<li><p><strong>Portability</strong> - Initially, the hardware will be hacked together to prove functionality, but the long-term plan is to migrate to a custom PCB, which may involve different MCUs, sensors, and actuator drivers. A robust abstraction layer provided by an RTOS will make this migration significantly easier.</p></li>
-</ul>
+<p>With the decision to leverage a microservices architecture for the compute platform, we need to select a messaging fabric for inter-service communication. The messaging fabric should be light enough for an embedded platform and support C++, Go, and Python clients, as those are the primary languages that will be used for the compute platform services. It should also support a variety of interaction models, including publish/subscribe and request/response.</p>
 </section>
 <section id="decision">
 <h2>Decision<a class="headerlink" href="#decision" title="Link to this heading"></a></h2>
-<p>We will use the Zephyr Project for the RT control core. Simply put, it meets all the criteria outlined above, in a way that others do not come close to. It also brings a wealth of additional functionality, largely for free, and has a very wide range of supported hardware. It is also in line with my desired tech stack.</p>
+<p>We will use NATS as the messaging fabric for the compute platform. NATS is both easy to deploy (as it’s written in Go) and very lightweight, making it a good fit for our use case. It also has support for a wide variety of interaction models, and client libraries for the languages we’re interested in. The API is also very simple.</p>
 </section>
 <section id="consequences">
 <h2>Consequences<a class="headerlink" href="#consequences" title="Link to this heading"></a></h2>
-<p>Using Zephyr will significantly reduce the development time for the RT control core, thanks to its extensive device support and active community. The abstraction layers provided by Zephyr will facilitate future hardware changes, making it easier to migrate to a custom PCB. Additionally, Zephyr’s built-in support for DFU will simplify the update process for the deployed hardware. However, it’s known for having a very steep learning curve (particularly for those unfamiliar with embedded Linux and its device/driver model), which may make it difficult to onboard others in the future.</p>
+<p>NATS isn’t traditionally aimed at embedded systems, and it lacks some more advanced features commonly found in something like MQTT (e.g. QoS). It is also known to have slightly higher latency than MQTT, and substantially higher latency than a brokerless system like ZeroMQ. For this use case, latency isn’t much of a concern, and we value simplicity and ease of use much more highly.</p>
 </section>
 </section>
 
