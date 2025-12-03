@@ -1,6 +1,6 @@
 [manifest]
 path = .
-file = west.yaml
+file = west.yml
 
 [zephyr]
 base = /home/smitj/Git/zephyrproject/zephyr
